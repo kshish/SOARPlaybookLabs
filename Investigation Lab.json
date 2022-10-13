@@ -14,21 +14,28 @@
                     "targetPort": "2_in"
                 },
                 {
-                    "id": "port_2_to_port_3",
-                    "sourceNode": "2",
-                    "sourcePort": "2_out",
-                    "targetNode": "3",
-                    "targetPort": "3_in"
-                },
-                {
                     "id": "port_2_to_port_4",
                     "sourceNode": "2",
                     "sourcePort": "2_out",
                     "targetNode": "4",
                     "targetPort": "4_in"
+                },
+                {
+                    "id": "port_4_to_port_5",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_5_to_port_3",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
                 }
             ],
-            "hash": "b4e78dbfb955e965d3ccb3e7036b2bcf5e08868a",
+            "hash": "0ba4bf140aa329445cd7f924c9e9e3f879a74d6d",
             "nodes": {
                 "0": {
                     "data": {
@@ -251,8 +258,12 @@
                                 "input_2": [
                                     "locate_source:action_result.data"
                                 ],
-                                "input_3": null,
-                                "input_4": null,
+                                "input_3": [
+                                    "source_reputation:action_result.summary"
+                                ],
+                                "input_4": [
+                                    "virus_search:action_result.summary"
+                                ],
                                 "input_5": null,
                                 "input_6": null,
                                 "input_7": null,
@@ -264,8 +275,8 @@
                     "errors": {},
                     "id": "3",
                     "type": "utility",
-                    "x": 880,
-                    "y": 744.5
+                    "x": 1180,
+                    "y": 1160
                 },
                 "4": {
                     "data": {
@@ -301,6 +312,41 @@
                     "type": "action",
                     "x": 1040,
                     "y": 860
+                },
+                "5": {
+                    "data": {
+                        "action": "file reputation",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "Virus Search",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "connector": "VirusTotal v3",
+                        "connectorConfigs": [
+                            "vt"
+                        ],
+                        "connectorId": "3fe4875d-a4a7-47d3-9ef1-f9e63a6653a4",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "virus_search",
+                        "id": "5",
+                        "parameters": {
+                            "hash": "artifact:*.cef.fileHash"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "hash"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "action",
+                    "x": 1180,
+                    "y": 984.5
                 }
             },
             "notes": ""
@@ -312,7 +358,7 @@
         "schema": "5.0.8",
         "version": "5.3.4.95116"
     },
-    "create_time": "2022-10-13T18:07:30.952594+00:00",
+    "create_time": "2022-10-13T18:15:59.145922+00:00",
     "draft_mode": false,
     "labels": [
         "*"

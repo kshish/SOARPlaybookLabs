@@ -45,19 +45,7 @@ def locate_source(action=None, success=None, container=None, results=None, handl
     ## Custom Code End
     ################################################################################
 
-    phantom.act("geolocate ip", parameters=parameters, name="locate_source", assets=["maxmind"], callback=locate_source_callback)
-
-    return
-
-
-@phantom.playbook_block()
-def locate_source_callback(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("locate_source_callback() called")
-
-    
-    debug_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
-    source_reputation(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
-
+    phantom.act("geolocate ip", parameters=parameters, name="locate_source", assets=["maxmind"], callback=source_reputation)
 
     return
 
@@ -68,17 +56,21 @@ def debug_1(action=None, success=None, container=None, results=None, handle=None
 
     container_artifact_data = phantom.collect2(container=container, datapath=["artifact:*.cef.sourceAddress","artifact:*.id"])
     locate_source_result_data = phantom.collect2(container=container, datapath=["locate_source:action_result.data","locate_source:action_result.parameter.context.artifact_id"], action_results=results)
+    source_reputation_result_data = phantom.collect2(container=container, datapath=["source_reputation:action_result.summary","source_reputation:action_result.parameter.context.artifact_id"], action_results=results)
+    virus_search_result_data = phantom.collect2(container=container, datapath=["virus_search:action_result.summary","virus_search:action_result.parameter.context.artifact_id"], action_results=results)
 
     container_artifact_cef_item_0 = [item[0] for item in container_artifact_data]
     locate_source_result_item_0 = [item[0] for item in locate_source_result_data]
+    source_reputation_result_item_0 = [item[0] for item in source_reputation_result_data]
+    virus_search_result_item_0 = [item[0] for item in virus_search_result_data]
 
     parameters = []
 
     parameters.append({
         "input_1": container_artifact_cef_item_0,
         "input_2": locate_source_result_item_0,
-        "input_3": None,
-        "input_4": None,
+        "input_3": source_reputation_result_item_0,
+        "input_4": virus_search_result_item_0,
         "input_5": None,
         "input_6": None,
         "input_7": None,
@@ -130,7 +122,40 @@ def source_reputation(action=None, success=None, container=None, results=None, h
     ## Custom Code End
     ################################################################################
 
-    phantom.act("domain reputation", parameters=parameters, name="source_reputation", assets=["vt"])
+    phantom.act("domain reputation", parameters=parameters, name="source_reputation", assets=["vt"], callback=virus_search)
+
+    return
+
+
+@phantom.playbook_block()
+def virus_search(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("virus_search() called")
+
+    # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
+
+    container_artifact_data = phantom.collect2(container=container, datapath=["artifact:*.cef.fileHash","artifact:*.id"])
+
+    parameters = []
+
+    # build parameters list for 'virus_search' call
+    for container_artifact_item in container_artifact_data:
+        if container_artifact_item[0] is not None:
+            parameters.append({
+                "hash": container_artifact_item[0],
+                "context": {'artifact_id': container_artifact_item[1]},
+            })
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    phantom.act("file reputation", parameters=parameters, name="virus_search", assets=["vt"], callback=debug_1)
 
     return
 
