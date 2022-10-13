@@ -14,28 +14,61 @@
                     "targetPort": "2_in"
                 },
                 {
-                    "id": "port_2_to_port_4",
-                    "sourceNode": "2",
-                    "sourcePort": "2_out",
+                    "id": "port_0_to_port_4",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
                     "targetNode": "4",
                     "targetPort": "4_in"
                 },
                 {
-                    "id": "port_4_to_port_5",
+                    "id": "port_4_to_port_6",
                     "sourceNode": "4",
                     "sourcePort": "4_out",
-                    "targetNode": "5",
-                    "targetPort": "5_in"
+                    "targetNode": "6",
+                    "targetPort": "6_in"
                 },
                 {
-                    "id": "port_5_to_port_3",
-                    "sourceNode": "5",
-                    "sourcePort": "5_out",
+                    "id": "port_2_to_port_6",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_0_to_port_7",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_6",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_6_to_port_8",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_7_to_port_3",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
                     "targetNode": "3",
                     "targetPort": "3_in"
                 }
             ],
-            "hash": "0ba4bf140aa329445cd7f924c9e9e3f879a74d6d",
+            "hash": "b349de13cabe1dfc5a335d3a07dfa06c8a329fa3",
             "nodes": {
                 "0": {
                     "data": {
@@ -259,7 +292,7 @@
                                     "locate_source:action_result.data"
                                 ],
                                 "input_3": [
-                                    "source_reputation:action_result.summary"
+                                    "source_reputation_1:action_result.summary.positives"
                                 ],
                                 "input_4": [
                                     "virus_search:action_result.summary"
@@ -275,8 +308,8 @@
                     "errors": {},
                     "id": "3",
                     "type": "utility",
-                    "x": 1180,
-                    "y": 1160
+                    "x": 1020,
+                    "y": 860
                 },
                 "4": {
                     "data": {
@@ -310,27 +343,59 @@
                     "errors": {},
                     "id": "4",
                     "type": "action",
-                    "x": 1040,
-                    "y": 860
+                    "x": 1300,
+                    "y": 600
                 },
-                "5": {
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": ">",
+                                        "param": "source_reputation_1:action_result.summary.positives",
+                                        "value": "10"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "decision_1",
+                        "id": "6",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "decision",
+                    "x": 1280,
+                    "y": 820
+                },
+                "7": {
                     "data": {
                         "action": "file reputation",
                         "actionType": "investigate",
                         "advanced": {
-                            "customName": "Virus Search",
-                            "customNameId": 0,
+                            "customName": "Source Reputation",
+                            "customNameId": 1,
                             "join": []
                         },
-                        "connector": "VirusTotal v3",
+                        "connector": "VirusTotal",
                         "connectorConfigs": [
-                            "vt"
+                            "vt_og"
                         ],
-                        "connectorId": "3fe4875d-a4a7-47d3-9ef1-f9e63a6653a4",
+                        "connectorId": "11f676a4-f3d4-4db0-8587-f4e942c07c7c",
                         "connectorVersion": "v1",
                         "functionId": 1,
-                        "functionName": "virus_search",
-                        "id": "5",
+                        "functionName": "source_reputation_1",
+                        "id": "7",
                         "parameters": {
                             "hash": "artifact:*.cef.fileHash"
                         },
@@ -343,10 +408,44 @@
                         "type": "action"
                     },
                     "errors": {},
-                    "id": "5",
+                    "id": "7",
                     "type": "action",
-                    "x": 1180,
-                    "y": 984.5
+                    "x": 680,
+                    "y": 600
+                },
+                "8": {
+                    "data": {
+                        "advanced": {
+                            "customName": "Notify SOC Management",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "approver": "Administrator",
+                        "functionId": 1,
+                        "functionName": "notify_soc_management",
+                        "id": "8",
+                        "message": "A potentially malicious file download has been detected on a local server with IP address {0}",
+                        "parameters": [
+                            "artifact:*.cef.destinationAddress"
+                        ],
+                        "responseTime": 30,
+                        "responses": [
+                            {
+                                "responseOptions": [
+                                    "Yes",
+                                    "No"
+                                ],
+                                "responsePrompt": "Notify SOC management?",
+                                "responseType": "yes/no"
+                            }
+                        ],
+                        "type": "prompt"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "prompt",
+                    "x": 1280,
+                    "y": 1044.5
                 }
             },
             "notes": ""
@@ -358,7 +457,7 @@
         "schema": "5.0.8",
         "version": "5.3.4.95116"
     },
-    "create_time": "2022-10-13T18:15:59.145922+00:00",
+    "create_time": "2022-10-13T21:09:30.322505+00:00",
     "draft_mode": false,
     "labels": [
         "*"
