@@ -82,7 +82,7 @@
                     "targetPort": "3_in"
                 }
             ],
-            "hash": "f80ab80b8e0e2d8920f14c831e26e2d0d95131e1",
+            "hash": "4760f3121646cea087a18768cfcc9ca1925d5b16",
             "nodes": {
                 "0": {
                     "data": {
@@ -376,9 +376,24 @@
                                     }
                                 ],
                                 "conditionIndex": 0,
+                                "customName": "Hi positives",
                                 "display": "If",
                                 "logic": "and",
                                 "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "lo positives",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
                             }
                         ],
                         "functionId": 1,
@@ -432,6 +447,7 @@
                         "advanced": {
                             "customName": "Notify SOC Management",
                             "customNameId": 0,
+                            "drop_none": true,
                             "join": []
                         },
                         "approver": "Administrator",
@@ -471,7 +487,7 @@
         "schema": "5.0.8",
         "version": "5.3.4.95116"
     },
-    "create_time": "2022-10-13T23:24:24.037930+00:00",
+    "create_time": "2022-10-13T23:34:18.785132+00:00",
     "draft_mode": false,
     "labels": [
         "*"
