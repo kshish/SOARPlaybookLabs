@@ -16,8 +16,8 @@ def on_start(container):
     locate_source(container=container)
     # call 'source_reputation' block
     source_reputation(container=container)
-    # call 'source_reputation_1' block
-    source_reputation_1(container=container)
+    # call 'virus_search' block
+    virus_search(container=container)
 
     return
 
@@ -49,7 +49,30 @@ def locate_source(action=None, success=None, container=None, results=None, handl
     ## Custom Code End
     ################################################################################
 
-    phantom.act("geolocate ip", parameters=parameters, name="locate_source", assets=["maxmind"], callback=join_decision_1)
+    phantom.act("geolocate ip", parameters=parameters, name="locate_source", assets=["maxmind"], callback=locate_source_callback)
+
+    return
+
+
+@phantom.playbook_block()
+def locate_source_callback(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("locate_source_callback() called")
+
+    
+    join_decision_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+    join_debug_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+
+
+    return
+
+
+@phantom.playbook_block()
+def join_debug_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("join_debug_1() called")
+
+    if phantom.completed(action_names=["locate_source", "source_reputation", "virus_search"]):
+        # call connected block "debug_1"
+        debug_1(container=container, handle=handle)
 
     return
 
@@ -60,21 +83,21 @@ def debug_1(action=None, success=None, container=None, results=None, handle=None
 
     container_artifact_data = phantom.collect2(container=container, datapath=["artifact:*.cef.sourceAddress","artifact:*.id"])
     locate_source_result_data = phantom.collect2(container=container, datapath=["locate_source:action_result.data","locate_source:action_result.parameter.context.artifact_id"], action_results=results)
-    source_reputation_1_result_data = phantom.collect2(container=container, datapath=["source_reputation_1:action_result.summary.positives","source_reputation_1:action_result.parameter.context.artifact_id"], action_results=results)
-    virus_search_result_data = phantom.collect2(container=container, datapath=["virus_search:action_result.summary","virus_search:action_result.parameter.context.artifact_id"], action_results=results)
+    source_reputation_result_data = phantom.collect2(container=container, datapath=["source_reputation:action_result.summary","source_reputation:action_result.parameter.context.artifact_id"], action_results=results)
+    virus_search_result_data = phantom.collect2(container=container, datapath=["virus_search:action_result.summary.positives","virus_search:action_result.parameter.context.artifact_id"], action_results=results)
 
     container_artifact_cef_item_0 = [item[0] for item in container_artifact_data]
     locate_source_result_item_0 = [item[0] for item in locate_source_result_data]
-    source_reputation_1_summary_positives = [item[0] for item in source_reputation_1_result_data]
-    virus_search_result_item_0 = [item[0] for item in virus_search_result_data]
+    source_reputation_result_item_0 = [item[0] for item in source_reputation_result_data]
+    virus_search_summary_positives = [item[0] for item in virus_search_result_data]
 
     parameters = []
 
     parameters.append({
         "input_1": container_artifact_cef_item_0,
         "input_2": locate_source_result_item_0,
-        "input_3": source_reputation_1_summary_positives,
-        "input_4": virus_search_result_item_0,
+        "input_3": source_reputation_result_item_0,
+        "input_4": virus_search_summary_positives,
         "input_5": None,
         "input_6": None,
         "input_7": None,
@@ -126,7 +149,19 @@ def source_reputation(action=None, success=None, container=None, results=None, h
     ## Custom Code End
     ################################################################################
 
-    phantom.act("domain reputation", parameters=parameters, name="source_reputation", assets=["vt"], callback=join_decision_1)
+    phantom.act("domain reputation", parameters=parameters, name="source_reputation", assets=["vt"], callback=source_reputation_callback)
+
+    return
+
+
+@phantom.playbook_block()
+def source_reputation_callback(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("source_reputation_callback() called")
+
+    
+    join_decision_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+    join_debug_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+
 
     return
 
@@ -135,7 +170,7 @@ def source_reputation(action=None, success=None, container=None, results=None, h
 def join_decision_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("join_decision_1() called")
 
-    if phantom.completed(action_names=["locate_source", "source_reputation", "source_reputation_1"]):
+    if phantom.completed(action_names=["locate_source", "source_reputation", "virus_search"]):
         # call connected block "decision_1"
         decision_1(container=container, handle=handle)
 
@@ -150,7 +185,7 @@ def decision_1(action=None, success=None, container=None, results=None, handle=N
     found_match_1 = phantom.decision(
         container=container,
         conditions=[
-            ["source_reputation_1:action_result.summary.positives", ">", 10]
+            ["virus_search:action_result.summary.positives", ">", 10]
         ])
 
     # call connected blocks if condition 1 matched
@@ -162,8 +197,8 @@ def decision_1(action=None, success=None, container=None, results=None, handle=N
 
 
 @phantom.playbook_block()
-def source_reputation_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("source_reputation_1() called")
+def virus_search(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("virus_search() called")
 
     # phantom.debug('Action: {0} {1}'.format(action['name'], ('SUCCEEDED' if success else 'FAILED')))
 
@@ -171,7 +206,7 @@ def source_reputation_1(action=None, success=None, container=None, results=None,
 
     parameters = []
 
-    # build parameters list for 'source_reputation_1' call
+    # build parameters list for 'virus_search' call
     for container_artifact_item in container_artifact_data:
         if container_artifact_item[0] is not None:
             parameters.append({
@@ -189,18 +224,18 @@ def source_reputation_1(action=None, success=None, container=None, results=None,
     ## Custom Code End
     ################################################################################
 
-    phantom.act("file reputation", parameters=parameters, name="source_reputation_1", assets=["vt_og"], callback=source_reputation_1_callback)
+    phantom.act("file reputation", parameters=parameters, name="virus_search", assets=["vt_og"], callback=virus_search_callback)
 
     return
 
 
 @phantom.playbook_block()
-def source_reputation_1_callback(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("source_reputation_1_callback() called")
+def virus_search_callback(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("virus_search_callback() called")
 
     
     join_decision_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
-    debug_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+    join_debug_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
 
 
     return

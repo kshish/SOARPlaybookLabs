@@ -66,9 +66,23 @@
                     "sourcePort": "7_out",
                     "targetNode": "3",
                     "targetPort": "3_in"
+                },
+                {
+                    "id": "port_4_to_port_3",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
                 }
             ],
-            "hash": "b349de13cabe1dfc5a335d3a07dfa06c8a329fa3",
+            "hash": "f80ab80b8e0e2d8920f14c831e26e2d0d95131e1",
             "nodes": {
                 "0": {
                     "data": {
@@ -292,10 +306,10 @@
                                     "locate_source:action_result.data"
                                 ],
                                 "input_3": [
-                                    "source_reputation_1:action_result.summary.positives"
+                                    "source_reputation:action_result.summary"
                                 ],
                                 "input_4": [
-                                    "virus_search:action_result.summary"
+                                    "virus_search:action_result.summary.positives"
                                 ],
                                 "input_5": null,
                                 "input_6": null,
@@ -357,7 +371,7 @@
                                     {
                                         "conditionIndex": 0,
                                         "op": ">",
-                                        "param": "source_reputation_1:action_result.summary.positives",
+                                        "param": "virus_search:action_result.summary.positives",
                                         "value": "10"
                                     }
                                 ],
@@ -383,8 +397,8 @@
                         "action": "file reputation",
                         "actionType": "investigate",
                         "advanced": {
-                            "customName": "Source Reputation",
-                            "customNameId": 1,
+                            "customName": "Virus Search",
+                            "customNameId": 0,
                             "join": []
                         },
                         "connector": "VirusTotal",
@@ -394,7 +408,7 @@
                         "connectorId": "11f676a4-f3d4-4db0-8587-f4e942c07c7c",
                         "connectorVersion": "v1",
                         "functionId": 1,
-                        "functionName": "source_reputation_1",
+                        "functionName": "virus_search",
                         "id": "7",
                         "parameters": {
                             "hash": "artifact:*.cef.fileHash"
@@ -457,7 +471,7 @@
         "schema": "5.0.8",
         "version": "5.3.4.95116"
     },
-    "create_time": "2022-10-13T21:09:30.322505+00:00",
+    "create_time": "2022-10-13T23:24:24.037930+00:00",
     "draft_mode": false,
     "labels": [
         "*"
