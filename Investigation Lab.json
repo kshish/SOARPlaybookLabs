@@ -154,9 +154,28 @@
                     "sourcePort": "15_out",
                     "targetNode": "16",
                     "targetPort": "16_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_15_to_port_8",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_0_to_port_17",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "17",
+                    "targetPort": "17_in"
                 }
             ],
-            "hash": "a42a7c7ddf57b2bd790bbef3c63ded4fc415fcf6",
+            "hash": "e8924289d6ec955396a19334d7149a106280865a",
             "nodes": {
                 "0": {
                     "data": {
@@ -652,6 +671,37 @@
                     "x": 960,
                     "y": 1164.5
                 },
+                "17": {
+                    "data": {
+                        "advanced": {
+                            "customName": "Log File Hashes",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "log_file_hashes",
+                        "id": "17",
+                        "inputs": {
+                            "Hash": {
+                                "datapaths": [
+                                    "artifact:*.cef.fileHash"
+                                ],
+                                "deduplicate": false
+                            }
+                        },
+                        "playbookName": "Log File Hashes",
+                        "playbookRepo": 3,
+                        "playbookRepoName": "SOARPB",
+                        "playbookType": "data",
+                        "synchronous": false,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "17",
+                    "type": "playbook",
+                    "x": 1550,
+                    "y": 644.5
+                },
                 "2": {
                     "data": {
                         "action": "geolocate ip",
@@ -1095,7 +1145,7 @@
         "schema": "5.0.8",
         "version": "5.3.4.95116"
     },
-    "create_time": "2022-10-14T15:34:32.953955+00:00",
+    "create_time": "2022-10-14T16:04:47.433772+00:00",
     "draft_mode": false,
     "labels": [
         "*"

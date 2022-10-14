@@ -18,6 +18,8 @@ def on_start(container):
     source_reputation(container=container)
     # call 'virus_search' block
     virus_search(container=container)
+    # call 'log_file_hashes' block
+    log_file_hashes(container=container)
 
     return
 
@@ -456,7 +458,7 @@ def source_country_fiter(action=None, success=None, container=None, results=None
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
-        pass
+        notify_soc_management(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
 
     # collect filtered artifact ids and results for 'if' condition 2
     matched_artifacts_2, matched_results_2 = phantom.condition(
@@ -488,6 +490,34 @@ def add_comment_5(action=None, success=None, container=None, results=None, handl
     ################################################################################
 
     phantom.comment(container=container, comment="Hi positives but low risk source")
+
+    return
+
+
+@phantom.playbook_block()
+def log_file_hashes(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("log_file_hashes() called")
+
+    container_artifact_data = phantom.collect2(container=container, datapath=["artifact:*.cef.fileHash"])
+
+    container_artifact_cef_item_0 = [item[0] for item in container_artifact_data]
+
+    inputs = {
+        "hash": container_artifact_cef_item_0,
+    }
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    # call playbook "SOARPB/Log File Hashes", returns the playbook_run_id
+    playbook_run_id = phantom.playbook("SOARPB/Log File Hashes", container=container, inputs=inputs)
 
     return
 
