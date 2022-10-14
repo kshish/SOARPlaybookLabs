@@ -134,7 +134,7 @@
                 {
                     "conditions": [
                         {
-                            "index": 1
+                            "index": 0
                         }
                     ],
                     "id": "port_6_to_port_15",
@@ -156,7 +156,7 @@
                     "targetPort": "16_in"
                 }
             ],
-            "hash": "f62ff805157360f23f51f6a80e653bf9091c029f",
+            "hash": "a42a7c7ddf57b2bd790bbef3c63ded4fc415fcf6",
             "nodes": {
                 "0": {
                     "data": {
@@ -569,6 +569,7 @@
                             {
                                 "comparisons": [
                                     {
+                                        "conditionIndex": 1,
                                         "op": "not in",
                                         "param": "locate_source:action_result.data.*.country_name",
                                         "value": "custom_list:Banned Countries"
@@ -1094,7 +1095,7 @@
         "schema": "5.0.8",
         "version": "5.3.4.95116"
     },
-    "create_time": "2022-10-14T15:30:01.044289+00:00",
+    "create_time": "2022-10-14T15:34:32.953955+00:00",
     "draft_mode": false,
     "labels": [
         "*"

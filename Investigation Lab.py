@@ -190,11 +190,11 @@ def check_positives(action=None, success=None, container=None, results=None, han
 
     # call connected blocks if condition 1 matched
     if found_match_1:
+        source_country_fiter(action=action, success=success, container=container, results=results, handle=handle)
         return
 
     # check for 'else' condition 2
     format_1(action=action, success=success, container=container, results=results, handle=handle)
-    source_country_fiter(action=action, success=success, container=container, results=results, handle=handle)
 
     return
 
