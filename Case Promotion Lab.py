@@ -12,16 +12,16 @@ from datetime import datetime, timedelta
 def on_start(container):
     phantom.debug('on_start() called')
 
-    # call 'format_1' block
-    format_1(container=container)
+    # call 'compose_report' block
+    compose_report(container=container)
 
     return
 
 @phantom.playbook_block()
-def format_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("format_1() called")
+def compose_report(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("compose_report() called")
 
-    template = """A file has been detected with potentially malicious content. A case has been opened.\n\n-**Case Link**:{0}\n-**Container Name**: {1}\n-**Container Description**: {2}\n-**Source URL**: {3}\n-**Target server IP**: {4}\n-**Suspicious File Path**: {5}\n-**Reason for promotion**: {6}\n"""
+    template = """A file has been detected with potentially malicious content. A case has been opened.\n\n-**Case Link**:{0}\n-**Container Name**: {1}\n-**Container Description**: {2}\n-**Source URL**: {3}\n-**Target server IP**: {4}\n-**Suspicious File Path**: {5} (*{7}*)\n-**Reason for promotion**: {6}\n"""
 
     # parameter list for template variable replacement
     parameters = [
@@ -31,7 +31,8 @@ def format_1(action=None, success=None, container=None, results=None, handle=Non
         "artifact:*.cef.sourceDnsDomain",
         "artifact:*.cef.destinationAddress",
         "artifact:*.cef.filePath",
-        "playbook_input:promotion_reason"
+        "playbook_input:promotion_reason",
+        "playbook_input:hash_history"
     ]
 
     ################################################################################
@@ -44,7 +45,7 @@ def format_1(action=None, success=None, container=None, results=None, handle=Non
     ## Custom Code End
     ################################################################################
 
-    phantom.format(container=container, template=template, parameters=parameters, name="format_1", drop_none=True)
+    phantom.format(container=container, template=template, parameters=parameters, name="compose_report", drop_none=True)
 
     add_comment_promote_to_case_add_note_1(container=container)
 
@@ -55,7 +56,7 @@ def format_1(action=None, success=None, container=None, results=None, handle=Non
 def add_comment_promote_to_case_add_note_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
     phantom.debug("add_comment_promote_to_case_add_note_1() called")
 
-    format_1 = phantom.get_format_data(name="format_1")
+    compose_report = phantom.get_format_data(name="compose_report")
 
     ################################################################################
     ## Custom Code Start
@@ -69,7 +70,7 @@ def add_comment_promote_to_case_add_note_1(action=None, success=None, container=
 
     phantom.comment(container=container, comment="Promoted to case")
     phantom.promote(container=container, template="Data Breach")
-    phantom.add_note(container=container, content=format_1, note_format="markdown", note_type="general", title="Incident Report")
+    phantom.add_note(container=container, content=compose_report, note_format="markdown", note_type="general", title="Incident Report")
 
     container = phantom.get_container(container.get('id', None))
 

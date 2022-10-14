@@ -21,7 +21,7 @@
                     "targetPort": "3_in"
                 }
             ],
-            "hash": "4c47e9137decc8b793f48da0cd07a1676991395f",
+            "hash": "4d6cf4a665094f6547e64d137a908a3087128d34",
             "nodes": {
                 "0": {
                     "data": {
@@ -58,11 +58,13 @@
                 "2": {
                     "data": {
                         "advanced": {
+                            "customName": "Compose Report",
+                            "customNameId": 0,
                             "drop_none": true,
                             "join": []
                         },
                         "functionId": 1,
-                        "functionName": "format_1",
+                        "functionName": "compose_report",
                         "id": "2",
                         "parameters": [
                             "container:url",
@@ -71,9 +73,10 @@
                             "artifact:*.cef.sourceDnsDomain",
                             "artifact:*.cef.destinationAddress",
                             "artifact:*.cef.filePath",
-                            "playbook_input:promotion_reason"
+                            "playbook_input:promotion_reason",
+                            "playbook_input:hash_history"
                         ],
-                        "template": "A file has been detected with potentially malicious content. A case has been opened.\n\n-**Case Link**:{0}\n-**Container Name**: {1}\n-**Container Description**: {2}\n-**Source URL**: {3}\n-**Target server IP**: {4}\n-**Suspicious File Path**: {5}\n-**Reason for promotion**: {6}\n",
+                        "template": "A file has been detected with potentially malicious content. A case has been opened.\n\n-**Case Link**:{0}\n-**Container Name**: {1}\n-**Container Description**: {2}\n-**Source URL**: {3}\n-**Target server IP**: {4}\n-**Suspicious File Path**: {5} (*{7}*)\n-**Reason for promotion**: {6}\n",
                         "type": "format"
                     },
                     "errors": {},
@@ -242,7 +245,7 @@
                                     "task_id",
                                     "trace"
                                 ],
-                                "content": "format_1:formatted_data",
+                                "content": "compose_report:formatted_data",
                                 "note_format": "markdown",
                                 "note_type": "general",
                                 "title": "Incident Report"
@@ -278,6 +281,11 @@
                 "contains": [],
                 "description": "",
                 "name": "Promotion Reason"
+            },
+            {
+                "contains": [],
+                "description": "",
+                "name": "Hash history"
             }
         ],
         "output_spec": null,
@@ -286,7 +294,7 @@
         "schema": "5.0.8",
         "version": "5.3.4.95116"
     },
-    "create_time": "2022-10-14T00:37:42.599328+00:00",
+    "create_time": "2022-10-14T16:34:37.837379+00:00",
     "draft_mode": false,
     "labels": [
         "*"
