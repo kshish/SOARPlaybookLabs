@@ -59,7 +59,7 @@ def locate_source_callback(action=None, success=None, container=None, results=No
     phantom.debug("locate_source_callback() called")
 
     
-    join_decision_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+    join_check_positives(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
     join_debug_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
 
 
@@ -159,7 +159,7 @@ def source_reputation_callback(action=None, success=None, container=None, result
     phantom.debug("source_reputation_callback() called")
 
     
-    join_decision_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+    join_check_positives(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
     join_debug_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
 
 
@@ -167,19 +167,19 @@ def source_reputation_callback(action=None, success=None, container=None, result
 
 
 @phantom.playbook_block()
-def join_decision_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("join_decision_1() called")
+def join_check_positives(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("join_check_positives() called")
 
     if phantom.completed(action_names=["locate_source", "source_reputation", "virus_search"]):
-        # call connected block "decision_1"
-        decision_1(container=container, handle=handle)
+        # call connected block "check_positives"
+        check_positives(container=container, handle=handle)
 
     return
 
 
 @phantom.playbook_block()
-def decision_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("decision_1() called")
+def check_positives(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("check_positives() called")
 
     # check for 'if' condition 1
     found_match_1 = phantom.decision(
@@ -190,11 +190,11 @@ def decision_1(action=None, success=None, container=None, results=None, handle=N
 
     # call connected blocks if condition 1 matched
     if found_match_1:
-        notify_soc_management(action=action, success=success, container=container, results=results, handle=handle)
         return
 
     # check for 'else' condition 2
     format_1(action=action, success=success, container=container, results=results, handle=handle)
+    source_country_fiter(action=action, success=success, container=container, results=results, handle=handle)
 
     return
 
@@ -237,7 +237,7 @@ def virus_search_callback(action=None, success=None, container=None, results=Non
     phantom.debug("virus_search_callback() called")
 
     
-    join_decision_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+    join_check_positives(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
     join_debug_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
 
 
@@ -438,6 +438,25 @@ def promote_to_case(action=None, success=None, container=None, results=None, han
 
     # call playbook "SOARPB/Case Promotion Lab", returns the playbook_run_id
     playbook_run_id = phantom.playbook("SOARPB/Case Promotion Lab", container=container, name="promote_to_case", inputs=inputs)
+
+    return
+
+
+@phantom.playbook_block()
+def source_country_fiter(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("source_country_fiter() called")
+
+    # collect filtered artifact ids and results for 'if' condition 1
+    matched_artifacts_1, matched_results_1 = phantom.condition(
+        container=container,
+        conditions=[
+            ["locate_source:action_result.data.*.country_name", "in", ""]
+        ],
+        name="source_country_fiter:condition_1")
+
+    # call connected blocks if filtered artifacts or results
+    if matched_artifacts_1 or matched_results_1:
+        pass
 
     return
 

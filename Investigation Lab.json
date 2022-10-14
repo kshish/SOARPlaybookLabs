@@ -49,18 +49,6 @@
                     "targetPort": "6_in"
                 },
                 {
-                    "conditions": [
-                        {
-                            "index": 0
-                        }
-                    ],
-                    "id": "port_6_to_port_8",
-                    "sourceNode": "6",
-                    "sourcePort": "6_out",
-                    "targetNode": "8",
-                    "targetPort": "8_in"
-                },
-                {
                     "id": "port_7_to_port_3",
                     "sourceNode": "7",
                     "sourcePort": "7_out",
@@ -142,9 +130,21 @@
                     "sourcePort": "9_out",
                     "targetNode": "14",
                     "targetPort": "14_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_6_to_port_15",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
                 }
             ],
-            "hash": "cff483e15e0a65178d2051319a0de10b109199e7",
+            "hash": "ca8f12935bb464979c6e6056cc1790367a32d4b4",
             "nodes": {
                 "0": {
                     "data": {
@@ -403,8 +403,8 @@
                     "errors": {},
                     "id": "12",
                     "type": "utility",
-                    "x": 860,
-                    "y": 1380
+                    "x": 820,
+                    "y": 1675.5
                 },
                 "13": {
                     "data": {
@@ -500,7 +500,7 @@
                     "id": "13",
                     "type": "utility",
                     "x": 1200,
-                    "y": 1384.5
+                    "y": 1660
                 },
                 "14": {
                     "data": {
@@ -531,7 +531,39 @@
                     "id": "14",
                     "type": "playbook",
                     "x": 1540,
-                    "y": 1384.5
+                    "y": 1660
+                },
+                "15": {
+                    "data": {
+                        "advanced": {
+                            "customName": "Source Country Fiter",
+                            "customNameId": 0,
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "in",
+                                        "param": "locate_source:action_result.data.*.country_name",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "source_country_fiter",
+                        "id": "15",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "filter",
+                    "x": 1260,
+                    "y": 1020
                 },
                 "2": {
                     "data": {
@@ -780,6 +812,8 @@
                 "6": {
                     "data": {
                         "advanced": {
+                            "customName": "Check Positives",
+                            "customNameId": 0,
                             "join": []
                         },
                         "conditions": [
@@ -801,6 +835,7 @@
                             {
                                 "comparisons": [
                                     {
+                                        "conditionIndex": 1,
                                         "op": "==",
                                         "param": "",
                                         "value": ""
@@ -814,7 +849,7 @@
                             }
                         ],
                         "functionId": 1,
-                        "functionName": "decision_1",
+                        "functionName": "check_positives",
                         "id": "6",
                         "type": "decision"
                     },
@@ -896,7 +931,7 @@
                     "id": "8",
                     "type": "prompt",
                     "x": 1280,
-                    "y": 1044.5
+                    "y": 1420
                 },
                 "9": {
                     "data": {
@@ -961,7 +996,7 @@
                     "id": "9",
                     "type": "decision",
                     "x": 1280,
-                    "y": 1224.5
+                    "y": 1544.5
                 }
             },
             "notes": ""
@@ -973,7 +1008,7 @@
         "schema": "5.0.8",
         "version": "5.3.4.95116"
     },
-    "create_time": "2022-10-14T03:11:09.920290+00:00",
+    "create_time": "2022-10-14T15:24:15.513582+00:00",
     "draft_mode": false,
     "labels": [
         "*"
