@@ -280,7 +280,18 @@ def notify_soc_management(action=None, success=None, container=None, results=Non
         }
     ]
 
-    phantom.prompt2(container=container, user=user, message=message, respond_in_mins=1, name="notify_soc_management", parameters=parameters, response_types=response_types, callback=evaluate_prompt_response, drop_none=True)
+    phantom.prompt2(container=container, user=user, message=message, respond_in_mins=1, name="notify_soc_management", parameters=parameters, response_types=response_types, callback=join_evaluate_prompt_response, drop_none=True)
+
+    return
+
+
+@phantom.playbook_block()
+def join_evaluate_prompt_response(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("join_evaluate_prompt_response() called")
+
+    if phantom.completed(action_names=["notify_soc_management"]):
+        # call connected block "evaluate_prompt_response"
+        evaluate_prompt_response(container=container, handle=handle)
 
     return
 
@@ -518,6 +529,8 @@ def log_file_hashes(action=None, success=None, container=None, results=None, han
 
     # call playbook "SOARPB/Log File Hashes", returns the playbook_run_id
     playbook_run_id = phantom.playbook("SOARPB/Log File Hashes", container=container, inputs=inputs)
+
+    join_evaluate_prompt_response(container=container)
 
     return
 
