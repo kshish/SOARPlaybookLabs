@@ -450,13 +450,44 @@ def source_country_fiter(action=None, success=None, container=None, results=None
     matched_artifacts_1, matched_results_1 = phantom.condition(
         container=container,
         conditions=[
-            ["locate_source:action_result.data.*.country_name", "in", ""]
+            ["locate_source:action_result.data.*.country_name", "in", "custom_list:Banned Countries"]
         ],
         name="source_country_fiter:condition_1")
 
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
         pass
+
+    # collect filtered artifact ids and results for 'if' condition 2
+    matched_artifacts_2, matched_results_2 = phantom.condition(
+        container=container,
+        conditions=[
+            ["locate_source:action_result.data.*.country_name", "not in", "custom_list:Banned Countries"]
+        ],
+        name="source_country_fiter:condition_2")
+
+    # call connected blocks if filtered artifacts or results
+    if matched_artifacts_2 or matched_results_2:
+        add_comment_5(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_2, filtered_results=matched_results_2)
+
+    return
+
+
+@phantom.playbook_block()
+def add_comment_5(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("add_comment_5() called")
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    phantom.comment(container=container, comment="Hi positives but low risk source")
 
     return
 
