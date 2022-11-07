@@ -52,7 +52,7 @@
                     "targetPort": "1_in"
                 }
             ],
-            "hash": "66d424c4bc8647b7f322a78cd739811c7e857728",
+            "hash": "c2f179997c00965dbbf4be140a4305e8bb8663ef",
             "nodes": {
                 "0": {
                     "data": {
@@ -314,6 +314,7 @@
                                         "value": "Bulgaria"
                                     },
                                     {
+                                        "conditionIndex": 0,
                                         "op": "==",
                                         "param": "geolocate_ip_1:action_result.data.*.country_name",
                                         "value": "Mexico"
@@ -369,7 +370,16 @@
                             "geolocate_ip_1:action_result.data.*.country_name"
                         ],
                         "responseTime": 30,
-                        "responses": [],
+                        "responses": [
+                            {
+                                "responseOptions": [
+                                    "Yes",
+                                    "No"
+                                ],
+                                "responsePrompt": "Would you like to change severity to High?",
+                                "responseType": "yes/no"
+                            }
+                        ],
                         "type": "prompt"
                     },
                     "errors": {},
@@ -388,7 +398,7 @@
         "schema": "5.0.6",
         "version": "5.3.0.84310"
     },
-    "create_time": "2022-11-07T21:02:03.041496+00:00",
+    "create_time": "2022-11-07T21:04:45.526247+00:00",
     "draft_mode": false,
     "labels": [
         "*"

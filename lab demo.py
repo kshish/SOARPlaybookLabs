@@ -141,7 +141,21 @@ def prompt_1(action=None, success=None, container=None, results=None, handle=Non
         "geolocate_ip_1:action_result.data.*.country_name"
     ]
 
-    phantom.prompt2(container=container, user=user, message=message, respond_in_mins=30, name="prompt_1", parameters=parameters)
+    # responses
+    response_types = [
+        {
+            "prompt": "Would you like to change severity to High?",
+            "options": {
+                "type": "list",
+                "choices": [
+                    "Yes",
+                    "No"
+                ],
+            },
+        }
+    ]
+
+    phantom.prompt2(container=container, user=user, message=message, respond_in_mins=30, name="prompt_1", parameters=parameters, response_types=response_types)
 
     return
 
