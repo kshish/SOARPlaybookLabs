@@ -43,7 +43,18 @@ def geolocate_ip_1(action=None, success=None, container=None, results=None, hand
     ## Custom Code End
     ################################################################################
 
-    phantom.act("geolocate ip", parameters=parameters, name="geolocate_ip_1", assets=["maxmind"], callback=debug_1)
+    phantom.act("geolocate ip", parameters=parameters, name="geolocate_ip_1", assets=["maxmind"], callback=geolocate_ip_1_callback)
+
+    return
+
+
+def geolocate_ip_1_callback(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("geolocate_ip_1_callback() called")
+
+    
+    debug_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+    decision_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=filtered_artifacts, filtered_results=filtered_results)
+
 
     return
 
@@ -86,6 +97,51 @@ def debug_1(action=None, success=None, container=None, results=None, handle=None
     ################################################################################
 
     phantom.custom_function(custom_function="community/debug", parameters=parameters, name="debug_1")
+
+    return
+
+
+def decision_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("decision_1() called")
+
+    # check for 'if' condition 1
+    found_match_1 = phantom.decision(
+        container=container,
+        logical_operator="or",
+        conditions=[
+            ["geolocate_ip_1:action_result.data.*.country_name", "==", "United States"],
+            ["geolocate_ip_1:action_result.data.*.country_name", "==", "Canada"],
+            ["geolocate_ip_1:action_result.data.*.country_name", "==", "Bulgaria"],
+            ["geolocate_ip_1:action_result.data.*.country_name", "==", "Mexico"]
+        ])
+
+    # call connected blocks if condition 1 matched
+    if found_match_1:
+        return
+
+    # check for 'else' condition 2
+    prompt_1(action=action, success=success, container=container, results=results, handle=handle)
+
+    return
+
+
+def prompt_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("prompt_1() called")
+
+    # set user and message variables for phantom.prompt call
+
+    user = "Administrator"
+    message = """The container {0} with severity {1} has IP(s) from unapproved countries.\n\nIP: {2} is from {3}\n\n"""
+
+    # parameter list for template variable replacement
+    parameters = [
+        "container:name",
+        "container:severity",
+        "geolocate_ip_1:action_result.parameter.ip",
+        "geolocate_ip_1:action_result.data.*.country_name"
+    ]
+
+    phantom.prompt2(container=container, user=user, message=message, respond_in_mins=30, name="prompt_1", parameters=parameters)
 
     return
 
