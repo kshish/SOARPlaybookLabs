@@ -131,12 +131,12 @@ def prompt_1(action=None, success=None, container=None, results=None, handle=Non
     # set user and message variables for phantom.prompt call
 
     user = "Administrator"
-    message = """The container {0} with severity {1} has IP(s) from unapproved countries.\n\nIP: {2} is from {3}\n\n"""
+    message = """The container {1} with severity {0} has IP(s) from unapproved countries.\n\nIP: {2} is from {3}\n\n"""
 
     # parameter list for template variable replacement
     parameters = [
-        "container:name",
         "container:severity",
+        "container:name",
         "geolocate_ip_1:action_result.parameter.ip",
         "geolocate_ip_1:action_result.data.*.country_name"
     ]
@@ -172,14 +172,17 @@ def decision_2(action=None, success=None, container=None, results=None, handle=N
 
     # call connected blocks if condition 1 matched
     if found_match_1:
-        set_severity_2(action=action, success=success, container=container, results=results, handle=handle)
+        set_severity_3(action=action, success=success, container=container, results=results, handle=handle)
         return
+
+    # check for 'else' condition 2
+    set_severity_4(action=action, success=success, container=container, results=results, handle=handle)
 
     return
 
 
-def set_severity_2(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
-    phantom.debug("set_severity_2() called")
+def set_severity_3(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("set_severity_3() called")
 
     ################################################################################
     ## Custom Code Start
@@ -192,6 +195,26 @@ def set_severity_2(action=None, success=None, container=None, results=None, hand
     ################################################################################
 
     phantom.set_severity(container=container, severity="high")
+
+    container = phantom.get_container(container.get('id', None))
+
+    return
+
+
+def set_severity_4(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("set_severity_4() called")
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    phantom.set_severity(container=container, severity="low")
 
     container = phantom.get_container(container.get('id', None))
 

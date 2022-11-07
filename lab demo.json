@@ -64,14 +64,26 @@
                             "index": 0
                         }
                     ],
-                    "id": "port_9_to_port_10",
+                    "id": "port_9_to_port_11",
                     "sourceNode": "9",
                     "sourcePort": "9_out",
-                    "targetNode": "10",
-                    "targetPort": "10_in"
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_9_to_port_12",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
                 }
             ],
-            "hash": "add94ebbce890346c0c6f2612cc8bbb79a7645fc",
+            "hash": "8e0d08b0c4e0f18e325dbd804106438aa6148689",
             "nodes": {
                 "0": {
                     "data": {
@@ -105,15 +117,15 @@
                     "x": 1140,
                     "y": 1260
                 },
-                "10": {
+                "11": {
                     "data": {
                         "advanced": {
                             "join": [],
                             "refreshNotableData": true
                         },
-                        "functionId": 2,
-                        "functionName": "set_severity_2",
-                        "id": "10",
+                        "functionId": 3,
+                        "functionName": "set_severity_3",
+                        "id": "11",
                         "selectMore": false,
                         "tab": "apis",
                         "type": "utility",
@@ -152,9 +164,61 @@
                         }
                     },
                     "errors": {},
-                    "id": "10",
+                    "id": "11",
                     "type": "utility",
-                    "x": 760,
+                    "x": 400,
+                    "y": 1404.5
+                },
+                "12": {
+                    "data": {
+                        "advanced": {
+                            "join": [],
+                            "refreshNotableData": true
+                        },
+                        "functionId": 4,
+                        "functionName": "set_severity_4",
+                        "id": "12",
+                        "selectMore": false,
+                        "tab": "apis",
+                        "type": "utility",
+                        "utilities": {
+                            "set_severity": {
+                                "description": "",
+                                "fields": [
+                                    {
+                                        "choices": "notableSeverity",
+                                        "description": "",
+                                        "label": "severity",
+                                        "name": "severity",
+                                        "placeholder": "Select severity",
+                                        "renderType": "dropdown",
+                                        "required": true
+                                    },
+                                    {
+                                        "hidden": true,
+                                        "name": "container",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "set severity",
+                                "name": "set_severity",
+                                "refreshNotableData": true
+                            }
+                        },
+                        "utilityType": "api",
+                        "values": {
+                            "set_severity": {
+                                "_internal": [
+                                    "container"
+                                ],
+                                "severity": "low"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "utility",
+                    "x": 960,
                     "y": 1404.5
                 },
                 "5": {
@@ -433,10 +497,10 @@
                         "functionId": 1,
                         "functionName": "prompt_1",
                         "id": "8",
-                        "message": "The container {0} with severity {1} has IP(s) from unapproved countries.\n\nIP: {2} is from {3}\n\n",
+                        "message": "The container {1} with severity {0} has IP(s) from unapproved countries.\n\nIP: {2} is from {3}\n\n",
                         "parameters": [
-                            "container:name",
                             "container:severity",
+                            "container:name",
                             "geolocate_ip_1:action_result.parameter.ip",
                             "geolocate_ip_1:action_result.data.*.country_name"
                         ],
@@ -475,9 +539,24 @@
                                     }
                                 ],
                                 "conditionIndex": 0,
+                                "customName": "Analyst answered Yes",
                                 "display": "If",
                                 "logic": "and",
                                 "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "customName": "said No",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
                             }
                         ],
                         "functionId": 2,
@@ -501,7 +580,7 @@
         "schema": "5.0.6",
         "version": "5.3.0.84310"
     },
-    "create_time": "2022-11-07T21:08:43.525318+00:00",
+    "create_time": "2022-11-07T21:16:14.954357+00:00",
     "draft_mode": false,
     "labels": [
         "*"
