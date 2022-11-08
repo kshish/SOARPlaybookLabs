@@ -28,7 +28,7 @@
                     "targetPort": "1_in"
                 }
             ],
-            "hash": "1ae484ba8c34ccddb91450a1ca6f2029eb0ea368",
+            "hash": "c1fa7536be71b11af12054c0b0cea4cb2ffda96c",
             "nodes": {
                 "0": {
                     "data": {
@@ -55,13 +55,7 @@
                         "id": "1",
                         "type": "end"
                     },
-                    "errors": {
-                        "output_spec": [
-                            {
-                                "name": "Name is required"
-                            }
-                        ]
-                    },
+                    "errors": {},
                     "id": "1",
                     "type": "end",
                     "userCode": "\n    # This function is called after all actions are completed.\n    # summary of all the action and/or all details of actions\n    # can be collected here.\n\n    # summary_json = phantom.get_summary()\n    # if 'result' in summary_json:\n        # for action_result in summary_json['result']:\n            # if 'action_run_id' in action_result:\n                # action_results = phantom.get_action_results(action_run_id=action_result['action_run_id'], result_data=False, flatten=False)\n                # phantom.debug(action_results)\n\n",
@@ -184,8 +178,11 @@
                         "functionId": 1,
                         "functionName": "prompt_1",
                         "id": "4",
-                        "message": "Please type in a msg for the HUD card",
-                        "parameters": [],
+                        "message": "The geo data: \n{0}\n\nthe filtered IP(s): {1}\n\n",
+                        "parameters": [
+                            "playbook_input:geo_list",
+                            "playbook_input:ip"
+                        ],
                         "responseTime": 30,
                         "responses": [
                             {
@@ -240,7 +237,7 @@
         "schema": "5.0.6",
         "version": "5.3.0.84310"
     },
-    "create_time": "2022-11-08T19:10:28.259756+00:00",
+    "create_time": "2022-11-08T19:13:28.468554+00:00",
     "draft_mode": false,
     "labels": [
         "*"

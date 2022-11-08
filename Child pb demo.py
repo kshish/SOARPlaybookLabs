@@ -49,10 +49,13 @@ def prompt_1(action=None, success=None, container=None, results=None, handle=Non
     # set user and message variables for phantom.prompt call
 
     user = "Administrator"
-    message = """Please type in a msg for the HUD card"""
+    message = """The geo data: \n{0}\n\nthe filtered IP(s): {1}\n\n"""
 
     # parameter list for template variable replacement
-    parameters = []
+    parameters = [
+        "playbook_input:geo_list",
+        "playbook_input:ip"
+    ]
 
     # responses
     response_types = [
