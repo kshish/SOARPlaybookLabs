@@ -175,6 +175,7 @@ def decision_2(action=None, success=None, container=None, results=None, handle=N
 
     # call connected blocks if condition 1 matched
     if found_match_1:
+        playbook_child_pb_demo_1(action=action, success=success, container=container, results=results, handle=handle)
         return
 
     return
@@ -222,6 +223,39 @@ def format_3(action=None, success=None, container=None, results=None, handle=Non
     phantom.format(container=container, template=template, parameters=parameters, name="format_3")
 
     prompt_1(container=container)
+
+    return
+
+
+def playbook_child_pb_demo_1(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("playbook_child_pb_demo_1() called")
+
+    prompt_1_result_data = phantom.collect2(container=container, datapath=["prompt_1:action_result.summary.responses.1"], action_results=results)
+    geolocate_ip_1_result_data = phantom.collect2(container=container, datapath=["geolocate_ip_1:action_result.data"], action_results=results)
+    filtered_result_0_data_filter_3 = phantom.collect2(container=container, datapath=["filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.parameter.ip"])
+
+    prompt_1_summary_responses_1 = [item[0] for item in prompt_1_result_data]
+    geolocate_ip_1_result_item_0 = [item[0] for item in geolocate_ip_1_result_data]
+    filtered_result_0_parameter_ip = [item[0] for item in filtered_result_0_data_filter_3]
+
+    inputs = {
+        "reason": prompt_1_summary_responses_1,
+        "geo_list": geolocate_ip_1_result_item_0,
+        "ip": filtered_result_0_parameter_ip,
+    }
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    # call playbook "Chris/Child pb demo", returns the playbook_run_id
+    playbook_run_id = phantom.playbook("Chris/Child pb demo", container=container, name="playbook_child_pb_demo_1", inputs=inputs)
 
     return
 

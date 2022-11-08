@@ -76,9 +76,21 @@
                     "sourcePort": "14_out",
                     "targetNode": "8",
                     "targetPort": "8_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_9_to_port_15",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
                 }
             ],
-            "hash": "5ccfb8707ee01b9e539c007e06d755ad0c1cdc49",
+            "hash": "f25c9970aa5fc2aace191ee5b993f793c0beb1c3",
             "nodes": {
                 "0": {
                     "data": {
@@ -93,7 +105,7 @@
                     "id": "0",
                     "type": "start",
                     "x": 1020,
-                    "y": 359.9999999999998
+                    "y": 359.99999999999966
                 },
                 "1": {
                     "data": {
@@ -162,6 +174,47 @@
                     "type": "format",
                     "x": 760,
                     "y": 960
+                },
+                "15": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionId": 1,
+                        "functionName": "playbook_Child_pb_demo_1",
+                        "id": "15",
+                        "inputs": {
+                            "geo_list": {
+                                "datapaths": [
+                                    "geolocate_ip_1:action_result.data"
+                                ],
+                                "deduplicate": false
+                            },
+                            "ip": {
+                                "datapaths": [
+                                    "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.parameter.ip"
+                                ],
+                                "deduplicate": false
+                            },
+                            "reason": {
+                                "datapaths": [
+                                    "prompt_1:action_result.summary.responses.1"
+                                ],
+                                "deduplicate": false
+                            }
+                        },
+                        "playbookName": "Child pb demo",
+                        "playbookRepo": 3,
+                        "playbookRepoName": "Chris",
+                        "playbookType": "data",
+                        "synchronous": true,
+                        "type": "playbook"
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "playbook",
+                    "x": 680,
+                    "y": 1504.5
                 },
                 "5": {
                     "customCode": null,
@@ -513,7 +566,7 @@
                     "id": "9",
                     "type": "decision",
                     "x": 840,
-                    "y": 1224.5
+                    "y": 1280
                 }
             },
             "notes": ""
@@ -525,7 +578,7 @@
         "schema": "5.0.6",
         "version": "5.3.0.84310"
     },
-    "create_time": "2022-11-08T19:09:49.688311+00:00",
+    "create_time": "2022-11-08T19:13:39.361331+00:00",
     "draft_mode": false,
     "labels": [
         "*"
