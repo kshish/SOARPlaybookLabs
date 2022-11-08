@@ -117,8 +117,10 @@ def decision_1(action=None, success=None, container=None, results=None, handle=N
 
     # call connected blocks if condition 1 matched
     if found_match_1:
-        prompt_1(action=action, success=success, container=container, results=results, handle=handle)
         return
+
+    # check for 'else' condition 2
+    format_3(action=action, success=success, container=container, results=results, handle=handle)
 
     return
 
@@ -129,14 +131,13 @@ def prompt_1(action=None, success=None, container=None, results=None, handle=Non
     # set user and message variables for phantom.prompt call
 
     user = "Administrator"
-    message = """The container {1} with severity {0} has IP(s) from unapproved countries.\n\nIP: {2} is from {3}\n\n"""
+    message = """The container {1} with severity {0} has IP(s) from unapproved countries.\n\n{2}\n"""
 
     # parameter list for template variable replacement
     parameters = [
         "container:severity",
         "container:name",
-        "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.parameter.ip",
-        "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.data.*.country_name"
+        "format_3:formatted_data"
     ]
 
     # responses
@@ -233,6 +234,34 @@ def filter_3(action=None, success=None, container=None, results=None, handle=Non
     # call connected blocks if filtered artifacts or results
     if matched_artifacts_1 or matched_results_1:
         decision_1(action=action, success=success, container=container, results=results, handle=handle, filtered_artifacts=matched_artifacts_1, filtered_results=matched_results_1)
+
+    return
+
+
+def format_3(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("format_3() called")
+
+    template = """IP: {0} is from {1}\n"""
+
+    # parameter list for template variable replacement
+    parameters = [
+        "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.parameter.ip",
+        "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.data.*.country_name"
+    ]
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    phantom.format(container=container, template=template, parameters=parameters, name="format_3")
+
+    prompt_1(container=container)
 
     return
 
