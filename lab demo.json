@@ -97,7 +97,7 @@
                     "targetPort": "16_in"
                 }
             ],
-            "hash": "277d190e7ea40e9b831c024b2bf19eb2b203783c",
+            "hash": "9dd6b54374f283090139354c084b287ab6d46ece",
             "nodes": {
                 "0": {
                     "data": {
@@ -546,27 +546,9 @@
                                 "comparisons": [
                                     {
                                         "conditionIndex": 0,
-                                        "op": "!=",
+                                        "op": "not in",
                                         "param": "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.data.*.country_name",
-                                        "value": "United States"
-                                    },
-                                    {
-                                        "conditionIndex": 0,
-                                        "op": "!=",
-                                        "param": "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.data.*.country_name",
-                                        "value": "Canada"
-                                    },
-                                    {
-                                        "conditionIndex": 0,
-                                        "op": "!=",
-                                        "param": "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.data.*.country_name",
-                                        "value": "Bulgaria"
-                                    },
-                                    {
-                                        "conditionIndex": 0,
-                                        "op": "!=",
-                                        "param": "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.data.*.country_name",
-                                        "value": "Mexico"
+                                        "value": "custom_list:countries"
                                     }
                                 ],
                                 "conditionIndex": 0,
@@ -697,10 +679,10 @@
         "schema": "5.0.6",
         "version": "5.3.0.84310"
     },
-    "create_time": "2022-11-08T19:16:32.749867+00:00",
+    "create_time": "2022-11-08T20:22:57.882571+00:00",
     "draft_mode": false,
     "labels": [
-        "splunk"
+        "*"
     ],
     "tags": []
 }
