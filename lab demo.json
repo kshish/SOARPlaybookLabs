@@ -21,13 +21,6 @@
                     "targetPort": "6_in"
                 },
                 {
-                    "id": "port_5_to_port_7",
-                    "sourceNode": "5",
-                    "sourcePort": "5_out",
-                    "targetNode": "7",
-                    "targetPort": "7_in"
-                },
-                {
                     "conditions": [
                         {
                             "index": 0
@@ -81,9 +74,28 @@
                     "sourcePort": "9_out",
                     "targetNode": "12",
                     "targetPort": "12_in"
+                },
+                {
+                    "id": "port_5_to_port_13",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_13_to_port_7",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
                 }
             ],
-            "hash": "1c4543295d399b6ec0bebe404af8d19009679029",
+            "hash": "908db1fb19e483a70e91430750a2699c4ea9e2ef",
             "nodes": {
                 "0": {
                     "data": {
@@ -98,7 +110,7 @@
                     "id": "0",
                     "type": "start",
                     "x": 1020,
-                    "y": 359.9999999999999
+                    "y": 359.9999999999998
                 },
                 "1": {
                     "data": {
@@ -220,6 +232,36 @@
                     "type": "utility",
                     "x": 960,
                     "y": 1404.5
+                },
+                "13": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "geolocate_ip_1:action_result.data.*.country_name",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 3,
+                        "functionName": "filter_3",
+                        "id": "13",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "filter",
+                    "x": 1040,
+                    "y": 780
                 },
                 "5": {
                     "customCode": null,
@@ -433,25 +475,25 @@
                                     {
                                         "conditionIndex": 0,
                                         "op": "!=",
-                                        "param": "geolocate_ip_1:action_result.data.*.country_name",
+                                        "param": "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.data.*.country_name",
                                         "value": "United States"
                                     },
                                     {
                                         "conditionIndex": 0,
                                         "op": "!=",
-                                        "param": "geolocate_ip_1:action_result.data.*.country_name",
+                                        "param": "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.data.*.country_name",
                                         "value": "Canada"
                                     },
                                     {
                                         "conditionIndex": 0,
                                         "op": "!=",
-                                        "param": "geolocate_ip_1:action_result.data.*.country_name",
+                                        "param": "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.data.*.country_name",
                                         "value": "Bulgaria"
                                     },
                                     {
                                         "conditionIndex": 0,
                                         "op": "!=",
-                                        "param": "geolocate_ip_1:action_result.data.*.country_name",
+                                        "param": "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.data.*.country_name",
                                         "value": "Mexico"
                                     }
                                 ],
@@ -486,7 +528,7 @@
                     "id": "7",
                     "type": "decision",
                     "x": 1060,
-                    "y": 840
+                    "y": 920
                 },
                 "8": {
                     "data": {
@@ -501,8 +543,8 @@
                         "parameters": [
                             "container:severity",
                             "container:name",
-                            "geolocate_ip_1:action_result.parameter.ip",
-                            "geolocate_ip_1:action_result.data.*.country_name"
+                            "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.parameter.ip",
+                            "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.data.*.country_name"
                         ],
                         "responseTime": 1,
                         "responses": [
@@ -580,7 +622,7 @@
         "schema": "5.0.6",
         "version": "5.3.0.84310"
     },
-    "create_time": "2022-11-07T21:18:55.982007+00:00",
+    "create_time": "2022-11-08T18:00:01.223835+00:00",
     "draft_mode": false,
     "labels": [
         "*"
