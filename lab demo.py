@@ -195,6 +195,8 @@ def set_severity_3(action=None, success=None, container=None, results=None, hand
 
     container = phantom.get_container(container.get('id', None))
 
+    call_api_5(container=container)
+
     return
 
 
@@ -214,6 +216,8 @@ def set_severity_4(action=None, success=None, container=None, results=None, hand
     phantom.set_severity(container=container, severity="low")
 
     container = phantom.get_container(container.get('id', None))
+
+    call_api_6(container=container)
 
     return
 
@@ -260,6 +264,134 @@ def format_3(action=None, success=None, container=None, results=None, handle=Non
     phantom.format(container=container, template=template, parameters=parameters, name="format_3")
 
     prompt_1(container=container)
+
+    return
+
+
+def call_api_5(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("call_api_5() called")
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    format_2(container=container)
+
+    return
+
+
+def format_2(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("format_2() called")
+
+    template = """{0}\n"""
+
+    # parameter list for template variable replacement
+    parameters = [
+        "string_to_lowercase_5:custom_function_result.data.lowercase_string"
+    ]
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    phantom.format(container=container, template=template, parameters=parameters, name="format_2")
+
+    call_api_2(container=container)
+
+    return
+
+
+def call_api_2(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("call_api_2() called")
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    format_4(container=container)
+
+    return
+
+
+def format_4(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("format_4() called")
+
+    template = """{0}\n"""
+
+    # parameter list for template variable replacement
+    parameters = [
+        ""
+    ]
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    phantom.format(container=container, template=template, parameters=parameters, name="format_4")
+
+    return
+
+
+def call_api_6(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("call_api_6() called")
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    pin_7(container=container)
+
+    return
+
+
+def pin_7(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("pin_7() called")
+
+    filtered_result_0_data_filter_3 = phantom.collect2(container=container, datapath=["filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.data.*.country_name"])
+
+    filtered_result_0_data___country_name = [item[0] for item in filtered_result_0_data_filter_3]
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    phantom.pin(container=container, data=filtered_result_0_data___country_name, message="Chose not to set severity to High", pin_type="card")
 
     return
 
