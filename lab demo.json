@@ -102,7 +102,7 @@
                     "targetPort": "8_in"
                 }
             ],
-            "hash": "0721314745f3a8e2d417996a5fdbded8b235b6cf",
+            "hash": "98ac4257fa02307924699c582be45b9a5bdab29c",
             "nodes": {
                 "0": {
                     "data": {
@@ -282,7 +282,7 @@
                             "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.parameter.ip",
                             "filtered-data:filter_3:condition_1:geolocate_ip_1:action_result.data.*.country_name"
                         ],
-                        "template": "IP: {0} is from {1}\n",
+                        "template": "%%\nIP: {0} is from {1}\n%%",
                         "type": "format"
                     },
                     "errors": {},
@@ -649,7 +649,7 @@
         "schema": "5.0.6",
         "version": "5.3.0.84310"
     },
-    "create_time": "2022-11-08T18:06:37.399807+00:00",
+    "create_time": "2022-11-08T18:07:24.090782+00:00",
     "draft_mode": false,
     "labels": [
         "*"
