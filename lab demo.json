@@ -700,7 +700,7 @@
     "create_time": "2022-11-08T19:16:32.749867+00:00",
     "draft_mode": false,
     "labels": [
-        "*"
+        "splunk"
     ],
     "tags": []
 }
