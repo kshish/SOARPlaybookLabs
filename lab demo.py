@@ -255,7 +255,29 @@ def playbook_child_pb_demo_1(action=None, success=None, container=None, results=
     ################################################################################
 
     # call playbook "Chris/Child pb demo", returns the playbook_run_id
-    playbook_run_id = phantom.playbook("Chris/Child pb demo", container=container, name="playbook_child_pb_demo_1", inputs=inputs)
+    playbook_run_id = phantom.playbook("Chris/Child pb demo", container=container, name="playbook_child_pb_demo_1", callback=pin_2, inputs=inputs)
+
+    return
+
+
+def pin_2(action=None, success=None, container=None, results=None, handle=None, filtered_artifacts=None, filtered_results=None, custom_function=None, **kwargs):
+    phantom.debug("pin_2() called")
+
+    playbook_child_pb_demo_1_output_msg_for_hud = phantom.collect2(container=container, datapath=["playbook_child_pb_demo_1:playbook_output:msg_for_hud"])
+
+    playbook_child_pb_demo_1_output_msg_for_hud_values = [item[0] for item in playbook_child_pb_demo_1_output_msg_for_hud]
+
+    ################################################################################
+    ## Custom Code Start
+    ################################################################################
+
+    # Write your custom code here...
+
+    ################################################################################
+    ## Custom Code End
+    ################################################################################
+
+    phantom.pin(container=container, data=playbook_child_pb_demo_1_output_msg_for_hud_values, message="Response", pin_style="blue", pin_type="card")
 
     return
 
